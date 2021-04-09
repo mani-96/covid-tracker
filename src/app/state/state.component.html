@@ -1,0 +1,148 @@
+<div class="state-name-div">
+    <h4 class="state-name">{{stateName}}</h4>
+    <h6 style="margin: 0" class="home" (click)="home()">Home
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+          </svg>
+    </h6>
+</div>
+
+<div class="row no-gutters">
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card confirmed">
+        <div>
+            Confirmed
+        </div>
+        <div class="count">
+            {{count.totalConfirmed | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card active">
+        <div>
+            Active
+        </div>
+        <div class="count">
+            {{count.totalActive | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card recovered">
+        <div>
+            Recovered
+        </div>
+        <div class="count">
+            {{count.totalRecovered | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card deceased">
+        <div>
+            Deceased
+        </div>
+        <div class="count">
+            {{count.totalDeceased | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card tested">
+        <div>
+            Tested
+        </div>
+        <div class="count">
+            {{count.totalTested | number}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="row">
+            <div class="col-12 mt-4 chart-div-state">
+                <canvas id="india-cases" #LastDays></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4 chart-div-state">
+                <canvas id="" #LastDaysRecovered></canvas>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 mt-2 mb-2" style="position: relative">
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="state-info-cards">
+                    <div class="confirmed">
+                        <h5>Confirmed Per Million</h5>
+                        <h3>{{((count.totalConfirmed / stateMeta.population)*1000000).toFixed(2)}}</h3>
+                        <p>
+                            {{((count.totalConfirmed / stateMeta.population)*1000000).toFixed(2)}} out of every 1 million people in {{stateName}} have tested positive for the virus.
+                        </p>
+                    </div>
+                    <div class="tested">
+                        <h5>Tested Per Million</h5>
+                        <h3>{{((count.totalTested / stateMeta.population)*1000000).toFixed(2)}}</h3>
+                        <p>
+                            For every 1 million people in {{stateName}} {{Math.ceil(((count.totalTested / stateMeta.population)*1000000))}}  have been tested.
+                        </p>
+                    </div>
+                    <div class="recovered">
+                        <h5>Recovery Rate</h5>
+                        <h3>{{((count.totalRecovered / count.totalConfirmed)*100).toFixed(2)}}%</h3>
+                        <p>
+                            For every 100 confirmed cases about {{(Math.ceil((count.totalRecovered / count.totalConfirmed)*100))}} are have recovered
+                        </p>
+                    </div>
+                    <div class="active">
+                        <h5>Active</h5>
+                        <h3>{{((count.totalActive / count.totalConfirmed)*100).toFixed(2)}}%</h3>
+                        <p>
+                             For every 100 confirmed cases about {{(Math.ceil((count.totalActive / count.totalConfirmed)*100))}} are currently infected.
+                        </p>
+                    </div>
+                    <div class="deceased">
+                        <h5>Mortality rate</h5>
+                        <h3>{{((count.totalDeceased / count.totalConfirmed)*100).toFixed(2)}}%</h3>
+                        <p>
+                             For every 100 confirmed cases about {{(Math.ceil((count.totalDeceased / count.totalConfirmed)*100))}} have passed away
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-lg-8 col-md-10 col-sm-12" style="margin:auto">
+        <h3 class="text-center">
+            Per District Cases
+        </h3>
+        <div class="table-container">
+            <table class="pl-1 pr-1">
+                <thead>
+                    <th>
+                        State
+                    </th>
+                    <th>
+                        Confirmed
+                    </th>
+                    <th>
+                        Recovered
+                    </th>
+                    <th>
+                        Active
+                    </th>
+                    <th>
+                        Deceased
+                    </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let district of districtData">
+                        <td class="state">{{district.districtName}}</td>
+                        <td class="confirmed">{{district.total.confirmed | number}}</td>
+                        <td class="recovered">{{district.total.recovered | number}}</td>
+                        <td class="active">{{district.total.confirmed - district.total.recovered - district.total.deceased | number}}</td>
+                        <td class="deceased">{{district.total.deceased | number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>

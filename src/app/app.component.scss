@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.container {
+    background: #fff
+}
+
+.footer {
+    h6 {
+        margin-bottom: 2px;
+        color: gray;
+        font-size: 0.8em;
+    }
+}
+
+#spinner-div {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.7);
+}
+.spinner{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    border-top: 4px solid red;
+    animation: spin 0.6s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+@media all and (max-width: 330px) {
+    .header h3 {
+        font-size: 1.2rem;
+    }
+
+}

@@ -1,0 +1,162 @@
+.info-card {
+    text-align: center;
+    font-weight: bold;
+    & div:nth-child(1) {
+        font-size: 1.2rem;
+    }
+
+    &.confirmed {
+        background: rgba(255,7,58,.125);
+        color: #ff073a;
+    }
+    &.active {
+        background: rgba(0,123,255,.125);
+        color: #007bff;
+    }
+    &.recovered {
+        background: rgba(40,167,69,.125);
+        color: #28a745;
+    }
+    &.deceased {
+        background: rgba(108,117,125,.063);
+        color: #6c757d;
+    }
+    &.tested {
+        color: rgba(32,26,162,.6);
+        background: rgba(32,26,162,.12549019607843137);
+    }
+    &.vaccinated {
+        color: #02115a;
+        background: lighten($color: #02115a, $amount: 80);
+    }
+}
+
+
+.state-name-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.state-name {
+    font-weight: bold;
+    color: #02115a;
+    background: lighten($color: #02115a, $amount: 80);
+    padding: 5px 10px 5px 10px;
+    max-width: fit-content;
+    margin-bottom: 0px!important;
+}
+
+.state-info-cards {
+    align-self: center;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2,1fr);
+    margin-bottom: 1rem;
+    
+    & .confirmed {
+        background: rgba(255,7,58,.125);
+        color: #ff073a;
+        text-align: center;
+        padding: 1rem;
+    }
+    & .tested {
+        color: rgba(32,26,162,.6);
+        background: rgba(32,26,162,.12549019607843137);
+        text-align: center;
+        padding: 1rem;
+    }
+    & .active {
+        background: rgba(0,123,255,.125);
+        color: #007bff;
+        text-align: center;
+        padding: 1rem;
+    }
+    & .recovered {
+        background: rgba(40,167,69,.125);
+        color: #28a745;
+        text-align: center;
+        padding: 1rem;
+    }
+    & .deceased {
+        background: rgba(108,117,125,.063);
+        color: #6c757d;
+        text-align: center;
+        padding: 1rem;
+    }
+}
+
+.count {
+    font-size: 1.3rem;
+}
+.chart-div-state {
+    min-height: 300px;
+    position: relative;
+}
+table {
+    max-width: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid transparent;
+}
+
+th {
+    padding: 5px;
+    position: sticky;
+    top: -1px;
+    background: lightgray;
+}
+
+tbody {    
+    td {
+        padding: 5px;
+        border: 3px solid white;
+        font-size: 0.90rem;
+        border-radius: 7px;
+        font-weight: 530;
+        &.confirmed {
+            background: rgba(255,7,58,.125);
+            color: #ff073a;
+        }
+        &.active {
+            background: rgba(0,123,255,.125);
+            color: #007bff;
+        }
+        &.recovered {
+            background: rgba(40,167,69,.125);
+            color: #28a745;
+        }
+        &.deceased {
+            background: rgba(108,117,125,.063);
+            color: #6c757d;
+        }
+    }
+    tr {
+        margin-top: 2px;
+        position: relative;
+        &:nth-child(1) {
+            td {
+                border-top: none;
+            }
+            
+        }
+    }
+    td.state {
+        width: 30%;
+        background: #efeeef;
+    }
+    
+}
+
+@media all and (max-width: 550px) {
+    .table-container {
+        overflow: auto;
+        max-width: calc(100% - 0.5rem)
+    }
+    
+}

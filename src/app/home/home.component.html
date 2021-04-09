@@ -1,0 +1,128 @@
+<h4 class="state-name">India</h4>
+
+<div class="row no-gutters">
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card confirmed">
+        <div>
+            Confirmed
+        </div>
+        <div class="count">
+            {{count.totalConfirmed | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card active">
+        <div>
+            Active
+        </div>
+        <div class="count">
+            {{count.totalActive | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card recovered">
+        <div>
+            Recovered
+        </div>
+        <div class="count">
+            {{count.totalRecovered | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card deceased">
+        <div>
+            Deceased
+        </div>
+        <div class="count">
+            {{count.totalDeceased | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card tested">
+        <div>
+            Tested
+        </div>
+        <div class="count">
+            {{count.totalTested | number}}
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-2 pt-2 pb-2 info-card vaccinated">
+        <div>
+            Vaccinated
+        </div>
+        <div class="count">
+            {{count.totalVaccinated | number}}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="" style="position: relative;" id="search-div">
+            <input class="search-input" placeholder="Search your state" (input)="inputChanged($event)">
+            <div class="search-icon-div">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
+            <div class="result" id="result-list">
+                <ul>
+                    <li *ngFor="let state of stateSearchResult" (click)="rowClicked(state)">
+                        {{state.name}}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(32,26,162,.6)" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                          </svg>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-2 mb-3">
+            <div class="col-12 mt-4 chart-div-india">
+                <canvas id="india-cases" #IndiaCases></canvas>
+            </div>
+            <div class="col-12 mt-4 chart-div">
+                <canvas id="state-count" #StateCount></canvas>    
+            </div>
+            <div class="col-12 mt-4 chart-div-india">
+                <canvas id="growth-pattern" #GrowthPattern></canvas>    
+            </div>
+
+        </div>
+        
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 mt-2 mb-2" style="position: relative;">
+        <div class="text-center" style="display: flex; justify-content: center; align-items: baseline;">
+            <h3>
+                State / UT
+            </h3>
+        </div>
+        <div class="table-container">
+            <table class="pl-1 pr-1">
+                <thead>
+                    <th>
+                        State
+                    </th>
+                    <th>
+                        Confirmed
+                    </th>
+                    <th>
+                        Recovered
+                    </th>
+                    <th>
+                        Active
+                    </th>
+                    <th>
+                        Deceased
+                    </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let state of allStateCount" (click)="rowClicked(state)">
+                        <td class="state">{{state.stateName}}</td>
+                        <td class="confirmed">{{state.total.confirmed | number}}</td>
+                        <td class="recovered">{{state.total.recovered | number}}</td>
+                        <td class="active">{{state.total.confirmed - state.total.recovered - state.total.deceased | number}}</td>
+                        <td class="deceased">{{state.total.deceased | number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
