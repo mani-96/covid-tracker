@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
         }
         this.indiaData = Object.values(data['TT'].dates);
         this.indiaData = this.indiaData.map( key => {
-           key.total['active'] = key.total.recovered ? (key.total.confirmed - key.total.recovered ) : 0;
+           key.total['active'] = key.total.recovered ? (key.total.confirmed - key.total.recovered - key.total.deceased ) : 0;
            return key
         })
         this.indiaData = this.indiaData.sort( (a,b) => 
