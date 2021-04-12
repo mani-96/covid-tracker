@@ -95,8 +95,6 @@ export class HomeComponent implements OnInit {
         this.appData.getCompleteTimeSeries()
       }
     })
-    this.homeServ.getCompleteTimeSeries().subscribe( data => {
-    })
   }
 
   getDate() {
