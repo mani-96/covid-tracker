@@ -25,20 +25,20 @@ export class HomeComponent implements OnInit {
   allStateCount = [];
   indiaData = [];
   stateSearchResult = [];
-  allStates = Object.keys(STATE_NAMES).map( key => {
+  allStates = Object.keys(STATE_NAMES).map(key => {
     return {
       name: STATE_NAMES[key],
       stateCode: key
     }
-  }).filter( key => key.name != 'India');
+  }).filter(key => key.name != 'India');
   searchTimeout;
-  @ViewChild('IndiaCases', {static: true})
+  @ViewChild('IndiaCases', { static: true })
   indiaCases;
 
-  @ViewChild('StateCount', {static: true})
+  @ViewChild('StateCount', { static: true })
   stateCount;
 
-  @ViewChild('GrowthPattern', {static: true})
+  @ViewChild('GrowthPattern', { static: true })
   growthPattern
 
   constructor(private homeServ: HomeService, private appData: AppDataProvider, private router: Router) { }
@@ -46,15 +46,15 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     window.scroll({
       behavior: 'smooth',
-      top: 0      
+      top: 0
     })
-    this.appData.stateData.subscribe( data => {
+    this.appData.stateData.subscribe(data => {
       if (data) {
         this.count.totalConfirmed = data['TT'].total.confirmed;
         this.count.totalDeceased = data['TT'].total.deceased;
         this.count.totalRecovered = data['TT'].total.recovered;
         this.count.totalTested = data['TT'].total.tested;
-        this.count.totalVaccinated = data['TT'].total.vaccinated;
+        this.count.totalVaccinated = data['TT'].total.vaccinated1;
         this.count.totalActive = this.count.totalConfirmed - this.count.totalRecovered - this.count.totalDeceased;
         Object.keys(data).map(key => {
           data[key].stateName = STATE_NAMES[key]
@@ -64,30 +64,29 @@ export class HomeComponent implements OnInit {
         this.allStateCount = this.allStateCount.filter(key => key.stateName != 'India');
         this.createStateCountGraph()
       } else {
-          this.appData.getStateData()
+        this.appData.getStateData()
       }
     })
 
     this.appData.completeTimeSeries.subscribe(data => {
       if (data) {
         Object.keys(data['TT'].dates).map(key => {
-          data['TT'].dates[key].date = key;        
+          data['TT'].dates[key].date = key;
         })
-        for( let i=15; i<29; i++) {
+        for (let i = 15; i < 29; i++) {
           let date = '2020-02-' + i;
           data['TT'].dates[date] = JSON.parse(JSON.stringify(data['TT'].dates['2020-02-14']));
           data['TT'].dates[date].date = date
         }
         this.indiaData = Object.values(data['TT'].dates);
-        this.indiaData = this.indiaData.map( key => {
-           key.total['active'] = key.total.recovered ? (key.total.confirmed - key.total.recovered - key.total.deceased ) : 0;
-           return key
+        this.indiaData = this.indiaData.map(key => {
+          key.total['active'] = key.total.recovered ? (key.total.confirmed - key.total.recovered - key.total.deceased) : 0;
+          return key
         })
-        this.indiaData = this.indiaData.sort( (a,b) => 
-        {
+        this.indiaData = this.indiaData.sort((a, b) => {
           return a['date'].localeCompare(b['date'])
         })
-        if (this.indiaData[this.indiaData.length-1].date == this.getDate())
+        if (this.indiaData[this.indiaData.length - 1].date == this.getDate())
           this.indiaData.splice(-1, 1);
         this.createIndiaCases();
         this.createGrowthPattern();
@@ -109,15 +108,15 @@ export class HomeComponent implements OnInit {
       type: "bar",
       data: {
         datasets: [{
-            data: this.allStateCount,
-            backgroundColor: 'gray',
-            
+          data: this.allStateCount,
+          backgroundColor: 'gray',
+
         }]
       },
       options: {
         parsing: {
-            xAxisKey: 'stateName',
-            yAxisKey: 'total.confirmed'
+          xAxisKey: 'stateName',
+          yAxisKey: 'total.confirmed'
         },
         locale: 'en-IN',
         responsive: true,
@@ -149,7 +148,7 @@ export class HomeComponent implements OnInit {
               }
             }
           }
-        },        
+        },
         plugins: {
           legend: {
             display: false
@@ -159,12 +158,12 @@ export class HomeComponent implements OnInit {
             text: 'State Count',
             color: 'black',
             font: {
-              size: 14,              
+              size: 14,
             }
           }
         }
       }
-      
+
     }
     let chart = new ChartJs.Chart(this.stateCount.nativeElement, config)
 
@@ -180,8 +179,8 @@ export class HomeComponent implements OnInit {
             backgroundColor: '#ff073a',
             label: 'Confirmed',
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'total.confirmed'
+              xAxisKey: 'date',
+              yAxisKey: 'total.confirmed'
             },
             borderColor: '#ff073a',
             pointRadius: 0,
@@ -192,8 +191,8 @@ export class HomeComponent implements OnInit {
             backgroundColor: '#28a745',
             label: 'Recovered',
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'total.recovered'
+              xAxisKey: 'date',
+              yAxisKey: 'total.recovered'
             },
             borderColor: '#28a745',
             pointRadius: 0,
@@ -204,8 +203,8 @@ export class HomeComponent implements OnInit {
             backgroundColor: '#007bff',
             label: 'Active',
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'total.active'
+              xAxisKey: 'date',
+              yAxisKey: 'total.active'
             },
             borderColor: '#007bff',
             pointRadius: 0,
@@ -230,23 +229,23 @@ export class HomeComponent implements OnInit {
             time: {
               round: false,
             },
-            
+
           },
-          
+
         },
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
             display: true,
-            position:'bottom'
+            position: 'bottom'
           },
           title: {
             display: true,
             text: 'PAN India',
             color: 'black',
             font: {
-              size: 14,              
+              size: 14,
             }
           }
         }
@@ -265,8 +264,8 @@ export class HomeComponent implements OnInit {
             backgroundColor: '#ff073a',
             label: 'Confirmed',
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'delta.confirmed'
+              xAxisKey: 'date',
+              yAxisKey: 'delta.confirmed'
             },
             borderColor: '#ff073a',
             pointRadius: 0,
@@ -277,8 +276,8 @@ export class HomeComponent implements OnInit {
             backgroundColor: '#28a745',
             label: 'Recovered',
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'delta.recovered'
+              xAxisKey: 'date',
+              yAxisKey: 'delta.recovered'
             },
             borderColor: '#28a745',
             pointRadius: 0,
@@ -304,23 +303,23 @@ export class HomeComponent implements OnInit {
             time: {
               round: false
             }
-            
+
           },
-          
+
         },
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
             display: true,
-            position:'bottom'
+            position: 'bottom'
           },
           title: {
             display: true,
             text: 'Growth Pattern',
             color: 'black',
             font: {
-              size: 14,              
+              size: 14,
             }
           }
         }
@@ -339,12 +338,12 @@ export class HomeComponent implements OnInit {
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout)
     }
-    this.searchTimeout = setTimeout( () => {
+    this.searchTimeout = setTimeout(() => {
       if (value) {
         this.stateSearchResult = this.allStates.filter(key => key.name.toLowerCase().indexOf(value.toLowerCase()) != -1);
         if (window.innerWidth < 550) {
-          setTimeout( () => {
-            document.getElementById('search-div').scrollIntoView({behavior:'smooth', block: 'start'})
+          setTimeout(() => {
+            document.getElementById('search-div').scrollIntoView({ behavior: 'smooth', block: 'start' })
           })
         }
       }
